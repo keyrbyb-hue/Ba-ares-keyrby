@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Group 8 </title>
+    <link rel="icon" type="image/jpg" href="grp8.jpg"/>
+    
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #a0a5ff, #6a4ccc ,#3c00ff);
+        background-size: 300% 300%;
+        min-height: 100vh;
+    }
+    @keyframes panBG {
+        0% { background-position: left top; }
+        100% { background-position: right bottom; }
+    }
+
+    /* TOP BAR */
+    .top-bar {
+        width: 100%;
+        padding: 15px;
+        background: #163e66aa;
+        backdrop-filter: blur(10px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        z-index: 40;
+    }
+
+    .menu-icon {
+        position: absolute;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #000000;
+        user-select: none;
+        padding: 15px;
+    }
+
+    .top-title {
+        font-size: 35px;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    /* NAVIGATION MENU */
+    .navbar {
+        width: 100%;
+        background:transparent;
+        padding: 15px 0;
+        position: fixed;
+        top: -220px;
+        left: 0;
+        transition: 0.28s ease;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(255, 255, 255, 0.12);
+        z-index: 35;
+    }
+    .navbar.open { top: 60px; }
+
+    .navbar ul { 
+        list-style: none; 
+        padding: 5px; 
+        margin: 5px; 
+        display:flex; 
+        justify-content:center; 
+        gap:28px; 
+        flex-wrap:wrap; 
+    }
+
+    .navbar a i {
+        font-size: 30px;
+        color: #ffecec;
+    }
+
+    .navbar a:hover i {
+        color: #0000ff;
+    }
+
+    /* HOME SECTION */
+    .home-section {
+        height: 70vh;
+        padding-top: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-title { color:#fff; 
+        font-size:42px; 
+        margin:0 0 12px; 
+        font-weight:700; 
+    }
+
+    .hero-sub { 
+        color:#fff; 
+        font-size:18px; 
+        opacity:0.95; 
+        margin:0 0 22px; 
+    }
+
+
+    /* PROFILE CARD */
+    .profile-card {
+        width: 350px;
+        max-width: calc(100% - 40px);
+        background: #fff;
+        padding: 40px 20px 30px;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        margin: 20px auto 60px;
+    }
+
+    .profile-image {
+        position: absolute;
+        top: -55px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        overflow: hidden;
+        width: 110px;
+        height: 110px;
+        border: 5px solid #fff;
+    }
+
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .action-buttons { 
+        display:flex; 
+        justify-content:space-between; 
+        margin-top:60px; 
+        padding:0 15px; 
+        font-size:14px; 
+        color:#ff5f86; 
+        font-weight:500;
+    }
+
+    h2 {
+        margin:10px 0 6px; 
+        font-size:22px; 
+        color:#333; }
+    .location { 
+        font-size:14px; 
+        color:#777; }
+    .bio { 
+        margin:15px 0; 
+        font-size:14px; 
+        color:#555; }
+
+    /* Stats */
+    .stats { 
+        display:flex; 
+        justify-content:space-around; 
+        margin:20px 0; 
+    }
+    
+    .stats strong { 
+        font-size:18px; 
+    }
+
+    /* UPDATED VIEW PROFILE BUTTON */
+    .show-more {
+        background: #fff;
+        border: 2px solid #ff6a88;
+        padding: 10px 25px;
+        color: #ff5f86;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.25s ease;
+        font-size: 15px;
+        display: inline-block;
+    }
+
+    .show-more:hover {
+        background: linear-gradient(135deg, #8646bd, #4000ff);
+        color: #fff;
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.355);
+    }
+
+    /* FRIENDS GRID */
+    .friends-title { 
+        text-align:center; 
+        color:#fff; 
+        font-size:28px; 
+    }
+    
+    .friends-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+        padding: 28px;
+        max-width: 1100px;
+        margin: 0 auto 80px;
+    }
+
+    /* POPUP MODAL */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 200;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        background: #fff;
+        width: 85%;
+        max-width: 400px;
+        padding: 40px;
+        margin: 100px auto;
+        border-radius: 20px;
+        animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; 
+            transform: scale(0.9);}
+        to {opacity: 1; 
+            transform: scale(1);}
+    }
+
+    .closeBtn {
+        float: right;
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+   /* FLOATING IMAGE ABOVE MODAL */
+   .modal-img-frame {
+    width: 120px;             
+    height: 120px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: absolute;
+    top: -60px;               
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    background: #fff;         
+    display: flex;            
+    align-items: center;
+    justify-content: center;
+    }
+
+    .modal-img-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;        
+        display: block;
+    }
+
+    /* Push text down so it doesn't overlap */
+    .modal-content {
+        position: relative;
+        padding-top: 50px;      
+    }
+
+    /* Center text inside modal */
+    .modal-content h2,
+    .modal-content p {
+        text-align: center;
+        margin-left: 0;
+    }
+
+    footer {
+        text-align: center;
+        padding: 15px;
+        background: #163e66aa;
+        color: #fff;
+        backdrop-filter: blur(10px);
+    }
+    </style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="top-title">ᎶᏒᎧᏬᎮ 8</div>
+    <div class="menu-icon" id="menuBtn">☰</div>
+</div>
+
+<!-- NAV WITH ICONS -->
+<nav class="navbar" id="navbar">
+    <ul>
+        <li><a href="#home"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="#friends"><i class="fa-solid fa-users"></i></a></li>
+        <li><a href="#settings"><i class="fa-solid fa-gear"></i></a></li>
+       
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="home-section">
+    <div>
+        <h1 class="hero-title">Welcome to Group 8’s dashboard!</h1>
+        <p class="hero-sub"></p>
+       
+    </div>
+</section>
+
+
+
+<!-- FRIENDS SECTION -->
+<section id="friends">
+    <div class="friends-container">
+
+        <!-- AGON -->
+        <div class="profile-card">
+            <div class="profile-image"><img src="agon.jpg"></div>
+            <div class="name-block">,</div>
+
+            <h2>Agon, Jay Emmanuel</h2>
+            <p class="location">BSIT - 2213</p>
+            <button class="show-more"
+                onclick="openProfile(
+                    'agon.jpg',
+                    'Agon, Jay Emmanuel',
+                    'My primary goal is to be helpful and informative to you, the user. Every decision I make (like what information to retrieve, what words to use, or how to structure a response) is based on achieving this goal.',
+                    '0991-4869-340',
+                    'agonjayemmanuelbuligan@gmail.com')">
+                View Profile
+            </button>
+        </div>
+
+        <!-- BAÑARES -->
+        <div class="profile-card">
+            <div class="profile-image"><img src="bañares.jpg"></div>
+            <div class="name-block">,</div>
+
+            <h2>Bañares, Keyrby</h2>
+            <p class="location">BSIT - 2213</p>
+            <button class="show-more"
+                onclick="openProfile(
+                    'bañares.jpg',
+                    'Bañares, Keyrby',
+                    'Together, we build the future”, and I strive to grow every day—learning, improving, and using my abilities to make a positive impact on the people around me.',
+                    '0985-4698-762',
+                    'keyrbyb@gmail.com')">
+                View Profile
+            </button>
+        </div>
+
+        <!--FRANCISCO -->
+        <div class="profile-card">
+            <div class="profile-image"><img src="francisco.jpg"></div>
+            <div class="name-block">      
+                  .
+            </div>
+
+            <h2>Francisco, Hanna </h2>
+            <p class="location">BSIT - 2213</p>
+            <button class="show-more"
+                onclick="openProfile(
+                    'francisco.jpg',
+                    'Francisco, Hanna',
+                    'My main goal is to be helpful and give you the info you need. I try to make everything clear and easy to understand, always aiming to assist you as best as I can.',
+                    '0961-4277-724',
+                    'hannafrancisco@gmail.com')">
+                View Profile
+            </button>
+        </div>
+
+        <!-- MANANGAT -->
+        <div class="profile-card">
+            <div class="profile-image"><img src="manangat.jpg"></div>
+            <div class="name-block">     .</div>
+            <h2>Manangat, Raizza</h2>
+            <p class="location">BSIT - 2213</p>
+            <button class="show-more"
+                onclick="openProfile(
+                    'manangat.jpg',
+                    'Manangat, Raizza',
+                    'My goal is to balance my IT studies with personal growth by improving time management, maintaining mental wellness, and learning new hobbies.',
+                    '0970-151-7848',
+                    'raizzamanangat92@gmail.com'
+                )">
+                View Profile
+            </button>
+        </div>
+
+        <!-- TAGACAY -->
+        <div class="profile-card">
+            <div class="profile-image"><img src="tagacay.jpg"></div>
+            <div class="name-block">,</div>
+
+            <h2>Tagacay, Hannah Joy</h2>
+            <p class="location">BSIT - 2213</p>
+            <button class="show-more"
+                onclick="openProfile(
+                'tagacay.jpg',
+                'Hannah Joy Tagacay',
+                'My operational goal is continuous, outcome-driven learning. I approach every task not just as an action, but as a defined phase within a larger strategy to acquire and apply durable knowledge.',
+                '0949-192-7501',
+                'tagacayhannahjoy@gmail.com',)">
+                View Profile
+            </button>
+        </div>
+
+        
+
+    </div>
+</section>
+<!-- FOOTER -->
+<footer>
+    &copy; 2025 Group 8
+</footer>
+
+<!-- POPUP MODAL -->
+<div id="profileModal" class="modal">
+   <div class="modal-content">
+    <span class="closeBtn">&times;</span>
+
+    <div class="modal-img-frame">
+        <img id="modalImage">
+    </div>
+<div class="name-block">            
+     .  </div>
+    <h2 id="modalName"></h2>
+    <p id="modalMotto"></p>
+    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+    <p><strong>Contact No.:</strong> <span id="modalContact"></span></p>
+   
+</div>
+
+
+<!-- SCRIPT -->
+<script>
+const menuBtn = document.getElementById('menuBtn');
+const navbar = document.getElementById('navbar');
+
+menuBtn.onclick = () => navbar.classList.toggle('open');
+
+function scrollToId(id){
+    document.getElementById(id).scrollIntoView({ behavior:"smooth" });
+}
+
+/* POPUP MODAL SCRIPT */
+const modal = document.getElementById("profileModal");
+
+document.querySelector(".closeBtn").onclick = () => {
+    modal.style.display = "none";
+};
+
+window.onclick = (event) => {
+    if (event.target == modal) modal.style.display = "none";
+};
+
+function openProfile(image, name, motto, contact, email, section) {
+    document.getElementById("modalImage").src = image;
+    document.getElementById("modalName").textContent = name;
+    document.getElementById("modalMotto").textContent = motto;
+    document.getElementById("modalEmail").textContent = email;
+    document.getElementById("modalContact").textContent = contact;
+
+
+    modal.style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
